@@ -1,0 +1,7 @@
+ipykernel
+python-dotenv
+
+# openai-sdk
+openai
+openai-agents
+sendgrid
