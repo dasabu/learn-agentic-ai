@@ -1,0 +1,20 @@
+"""
+# Python program to calculate the first 10,000 terms of the series
+# and multiply the total by 4.
+
+def calculate_series():
+    total = 0
+    for i in range(10000):
+        # The denominator is always odd, i.e., (2*i + 1) for 0, 1, 2, ...
+        if i % 2 == 0:
+            total += 1 / (2 * i + 1)  # Add for even i
+        else:
+            total -= 1 / (2 * i + 1)  # Subtract for odd i
+    return total * 4
+
+result = calculate_series()
+print(result)
+
+# Output: 
+# 3.1414926535900345
+"""
