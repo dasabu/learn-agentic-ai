@@ -89,7 +89,22 @@ my_crew/
         │   ├── agents.yaml
         │   └── tasks.yaml
         ├── crew.py
-        └── main.py
+        └── main.py 
 ```
 
 Run: `crewai run`
+
+### Five steps:
+
+1. Create the project: `crewai create crew my_project`
+2. Fill in the config yaml files to define the Agents and Tasks
+3. Complete the `crew.py` module to create the Agents, Tasks and Crew, referencing the config
+4. Update the `main.py` to set config and run
+5. Run: `crewai run`
+
+---
+
+### Tools & Context
+
+- Tools: equiping agents with capabilities
+- Context: information passed from 1 task to another
