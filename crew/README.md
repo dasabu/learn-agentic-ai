@@ -108,3 +108,11 @@ Run: `crewai run`
 
 - Tools: equiping agents with capabilities
 - Context: information passed from 1 task to another
+
+### Memory
+
+1. **Short-term memory**: Temporarily store recent interactions and outcomes using RAG, enable agents to access relevant informatuon during the current execution
+2. **Long-term memory**: Preserves valuable insights and learnings, building knowledge overtime
+3. **Entity memory**: Information about people, places and concepts encountered during tasks, facilitating deeper understanding and relationship mapping. Uses RAG for storing entity information
+4. **Contextual memory**: Maintain the context of interaction by combining all the above
+5. **User memory**: Store user-specific information and preferences, enhancing personalization and user experience (this is up to us to manage and include in prompts)

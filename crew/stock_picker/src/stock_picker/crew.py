@@ -1,9 +1,15 @@
+import types
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai_tools import SerperDevTool
 from pydantic import BaseModel, Field
 from typing import List
+# Custom tools
 from stock_picker.tools.push_tool import PushNotificationTool
+# Memory modules
+from crewai.memory import ShortTermMemory, LongTermMemory, EntityMemory
+from crewai.memory.storage.rag_storage import RAGStorage
+from crewai.memory.storage.ltm_sqlite_storage import LTMSQLiteStorage
 
 # Define schemas for agent structured output
 class TrendingCompany(BaseModel):
@@ -38,7 +44,8 @@ class StockPicker():
     def trending_company_finder(self) -> Agent:
         return Agent(
             config=self.agents_config['trending_company_finder'],
-            tools=[SerperDevTool()]
+            tools=[SerperDevTool()],
+            memory=True,
         )
     
     @agent
@@ -52,7 +59,8 @@ class StockPicker():
     def stock_picker(self) -> Agent:
         return Agent(
             config=self.agents_config['stock_picker'],
-            tools=[PushNotificationTool()] # Custom Tool
+            tools=[PushNotificationTool()], # Custom Tool
+            memory=True,
         )
     
     @task
@@ -82,6 +90,39 @@ class StockPicker():
             config = self.agents_config['manager'],
             allow_delegation=True # Handoff in OpenAI Agent SDK
         )
+        
+        # Memory
+        short_term_memory = ShortTermMemory(
+            storage=RAGStorage(
+                embedder_config={
+                    "provider": "openai",
+                    "config": {
+                        "model": "text-embedding-3-small"
+                    }
+                },
+                type="short_term",
+                path="./memory/"
+            )
+        )
+        
+        long_term_memory = LongTermMemory(
+            storage=LTMSQLiteStorage(
+                db_path="./memory/long_term_memory_storage.db"
+            )
+        )
+        
+        entity_memory = EntityMemory(
+            storage=RAGStorage(
+                embedder_config={
+                    "provider": "openai",
+                    "config": {
+                        "model": "text-embedding-3-small"
+                    }
+                },
+                type="entity",
+                path="./memory/"
+            )
+        )
 
         return Crew(
             agents=self.agents,
@@ -91,4 +132,8 @@ class StockPicker():
             manager_agent=manager_agent,
             # Not necessary to define a specific manager agent, can do as below:
             # manager_llm='openai/gpt-4o'
+            memory=True,
+            long_term_memory=long_term_memory,
+            short_term_memory=short_term_memory,
+            entity_memory=entity_memory
         )
