@@ -5,3 +5,12 @@ python-dotenv
 openai
 openai-agents
 sendgrid
+
+# langgraph
+langchain
+langchain-openai
+langchain-community
+langgraph
+
+# gradio
+gradio

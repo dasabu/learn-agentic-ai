@@ -30,7 +30,7 @@ def my_counting_node(old_state: State) -> State:
     return new_state
 ```
 
-For each field in your State, you can specify a special function called a **Reducer**. When you return a new State, LangGraph uses reducer to combine this field with the old State.
+For each field in your State, you can specify a special function called a **Reducer**. When you return a new State, LangGraph uses reducer to combine these fields in the new State with the old State.
 
 This enables LangGraph to run multiple nodes concurrently and combine State without overwriting.
 
