@@ -34,3 +34,20 @@ For each field in your State, you can specify a special function called a **Redu
 
 This enables LangGraph to run multiple nodes concurrently and combine State without overwriting.
 
+---
+
+### ⚠️ Super-Step & Checkpoint
+
+- **Super-step**: can be considered a single iteration over the graph nodes. Nodes that run in parallel are part of the same super-step, while nodes that run sequentially belong to separate super-steps
+
+- The graph describes one super-steps, one interaction between agents and tools to archive an outcome
+
+- Every user interaction is a fresh `graph.invoke(state)` call
+
+*The reducer handles updating state during a super-step but not between super-steps*
+
+```
+Define Graph (5 steps) -> Super-step (user question invoke the graph) -> Super-step (another question) -> ...
+```
+
+- **Checkpoint**: LangGraph uses checkpoints to keep track and preserve context between these super-steps. Checkpoint is a snapshot of the graph state saved at each super-step.

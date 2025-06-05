@@ -11,6 +11,7 @@ langchain
 langchain-openai
 langchain-community
 langgraph
+langgraph-checkpoint-sqlite
 
 # gradio
 gradio
